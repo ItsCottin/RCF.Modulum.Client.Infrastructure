@@ -48,10 +48,6 @@
     <PackageReference Include="RCF.Modulum.Shared" Version="0.0.1-beta.4" />
   </ItemGroup>
 
-  <!-- Referencia dos proprios pacotes para debug
-  <ItemGroup>
-    <ProjectReference Include="..\RCF.Modulum.Application\RCF.Modulum.Application.csproj" />
-    <ProjectReference Include="..\RCF.Modulum.Shared\RCF.Modulum.Shared.csproj" />
-  </ItemGroup> -->
+  <!-- Referencia dos proprios pacotes para debug -->
 
 </Project>

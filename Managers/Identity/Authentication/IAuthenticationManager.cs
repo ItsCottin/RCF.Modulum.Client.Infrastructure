@@ -18,5 +18,7 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
         Task<string> TryForceRefreshToken();
 
         Task<ClaimsPrincipal> CurrentUser();
+
+        Task<bool> CheckAuthenticatedAsync();
     }
 }

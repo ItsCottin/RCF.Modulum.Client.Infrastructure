@@ -114,5 +114,15 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
         {
             return await RefreshToken();
         }
+
+        public async Task<bool> CheckAuthenticatedAsync()
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (authState.User.Identity.IsAuthenticated == null)
+            {
+                return false;
+            }
+            return authState.User.Identity.IsAuthenticated;
+        }
     }
 }

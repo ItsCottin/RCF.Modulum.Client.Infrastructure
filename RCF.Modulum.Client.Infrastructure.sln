@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCF.Modulum.Client.Infrastructure", "RCF.Modulum.Client.Infrastructure.csproj", "{7171069A-1CF8-4547-A6EE-E0F742804BD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RCF.Modulum.Client.Infrastructure", "RCF.Modulum.Client.Infrastructure.csproj", "{7171069A-1CF8-4547-A6EE-E0F742804BD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
