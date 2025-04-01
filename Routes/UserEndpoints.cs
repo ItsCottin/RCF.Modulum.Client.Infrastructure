@@ -19,6 +19,11 @@
             return $"{Export}?searchString={searchString}";
         }
 
+        public static string ConfirmEmail(string userId, string token)
+        {
+            return $"api/identity/account/confirmEmail?userId={userId}&token={token}";
+        }
+
         public static string Export = "api/identity/user/export";
         public static string Register = "api/identity/user";
         public static string ToggleUserStatus = "api/identity/user/toggle-status";

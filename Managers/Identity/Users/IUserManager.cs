@@ -20,6 +20,8 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Users
 
         Task<IResult> RegisterUserAsync(RegisterRequest request);
 
+        Task<IResult> ConfirmEmail(string userId, string token);
+
         //Task<IResult> ToggleUserStatusAsync(ToggleUserStatusRequest request);
 
         //Task<IResult> UpdateRolesAsync(UpdateUserRolesRequest request);

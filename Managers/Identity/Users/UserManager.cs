@@ -5,6 +5,7 @@ using modulum.Shared.Wrapper;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace modulum.Client.Infrastructure.Managers.Identity.Users
@@ -63,6 +64,12 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Users
         public async Task<IResult> ResetPasswordAsync(ResetPasswordRequest request)
         {
             var response = await _httpClient.PostAsJsonAsync(Routes.UserEndpoints.ResetPassword, request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult> ConfirmEmail(string userId, string token)
+        {
+            var response = await _httpClient.GetAsync(Routes.UserEndpoints.ConfirmEmail(userId, token));
             return await response.ToResult();
         }
     }

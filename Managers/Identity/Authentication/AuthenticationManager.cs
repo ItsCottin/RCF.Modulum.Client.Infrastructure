@@ -14,14 +14,19 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
 {
     public class AuthenticationManager : IAuthenticationManager
     {
+        private bool _authenticated = false;
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
+
 
         public AuthenticationManager(
             HttpClient httpClient,
@@ -58,17 +63,24 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
             }
             else
             {
-                return await Result.FailAsync(result.Messages);
+                return await Result.FailAsync(result.Messages, result.Fields);
             }
         }
 
         public async Task<IResult> Logout()
         {
-            await _localStorage.RemoveItemAsync(StorageConstants.Local.AuthToken);
-            await _localStorage.RemoveItemAsync(StorageConstants.Local.RefreshToken);
-            await _localStorage.RemoveItemAsync(StorageConstants.Local.UserImageURL);
-            ((BlazorHeroStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            const string Empty = "{}";
+            var emptyContent = new StringContent(Empty, Encoding.UTF8, "application/json");
+            var result = await _httpClient.PostAsync(TokenEndpoints.Logout, emptyContent);
+            if (result.IsSuccessStatusCode)
+            {
+                await _localStorage.RemoveItemAsync(StorageConstants.Local.AuthToken);
+                await _localStorage.RemoveItemAsync(StorageConstants.Local.RefreshToken);
+                await _localStorage.RemoveItemAsync(StorageConstants.Local.UserImageURL);
+                ((BlazorHeroStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+            }
+            await ((BlazorHeroStateProvider)this._authenticationStateProvider).StateChangedAsync(); // 4 horas de pesquisa e testes pra descobrir que no final era só adicionar essa linha
             return await Result.SuccessAsync();
         }
 
