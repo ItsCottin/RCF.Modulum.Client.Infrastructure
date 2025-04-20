@@ -1,6 +1,8 @@
-﻿using modulum.Application.Requests.Identity;
+﻿using modulum.Application.Requests.Account;
+using modulum.Application.Requests.Identity;
 using modulum.Application.Responses.Identity;
 using modulum.Shared.Wrapper;
+using nodulum.Application.Requests.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,9 +20,15 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Users
 
         Task<IResult<UserRolesResponse>> GetRolesAsync(string userId);
 
-        Task<IResult> RegisterUserAsync(RegisterRequest request);
+        Task<IResult> PreRegisterUserAsync(PreRegisterRequest request);
 
         Task<IResult> ConfirmEmail(string userId, string token);
+
+        Task<IResult> ConfirmEmail(TwoFactorRequest request);
+
+        Task<IResult> FimRegisterUserAsync(FinishRegisterRequest request);
+
+        Task<string> GetItemLocalStorage(string key);
 
         //Task<IResult> ToggleUserStatusAsync(ToggleUserStatusRequest request);
 

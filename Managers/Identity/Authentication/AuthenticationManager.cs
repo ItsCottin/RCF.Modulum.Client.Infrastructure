@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
+using modulum.Shared.Routes;
 
 namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
 {
