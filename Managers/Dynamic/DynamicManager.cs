@@ -1,5 +1,7 @@
-﻿using modulum.Application.Requests.Dynamic.Create;
+﻿using modulum.Application.Requests.Dynamic;
+using modulum.Application.Requests.Dynamic.Create;
 using modulum.Client.Infrastructure.Extensions;
+using modulum.Shared.Routes;
 using modulum.Shared.Wrapper;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,30 @@ namespace modulum.Client.Infrastructure.Managers.Dynamic
         public async Task<IResult> CadastrarDynamic(CreateDynamicTableRequest request)
         {
             var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.CadastroDynamic, request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult<DynamicTableRequest>> GetAllRegistroTabela(int id)
+        {
+            var response = await _httpClient.GetAsync(EndpointsDynamic.Raiz + $"{id}");
+            return await response.ToResult<DynamicTableRequest>();
+        }
+
+        public async Task<IResult<DynamicTableRequest>> GetNewObject(int id)
+        {
+            var response = await _httpClient.GetAsync(Routes.DynamicEndpoints.GetNewObject + $"/{id}");
+            return await response.ToResult<DynamicTableRequest>();
+        }
+
+        public async Task<IResult<List<MenuRequest>>> GetMenu()
+        {
+            var response = await _httpClient.GetAsync(Routes.DynamicEndpoints.GetMenu);
+            return await response.ToResult<List<MenuRequest>>();
+        }
+
+        public async Task<IResult> OperacaoRegistro(DynamicTableRequest request, string operacao) 
+        {
+            var response = await _httpClient.PutAsJsonAsync($"{Routes.DynamicEndpoints.CadastroDynamic}/{operacao}", request);
             return await response.ToResult();
         }
     }

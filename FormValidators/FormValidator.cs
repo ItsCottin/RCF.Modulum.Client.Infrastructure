@@ -15,12 +15,13 @@ namespace modulum.Client.Infrastructure.FormValidators
 
         private ValidationMessageStore _validationMessageStore { get; set; }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             _validationMessageStore = new(editContext);
 
             editContext.OnValidationRequested += (sender , o) => _validationMessageStore.Clear();
             editContext.OnFieldChanged += (sender, o) => _validationMessageStore.Clear(o.FieldIdentifier);
+            await Task.CompletedTask;
         }
 
         public void ClearAllErrors()
@@ -35,6 +36,45 @@ namespace modulum.Client.Infrastructure.FormValidators
             {
                 _validationMessageStore.Add(editContext.Field(error.Key), error.Value);
             }
+            editContext.NotifyValidationStateChanged();
+        }
+
+        public void DisplayAllErrors(Dictionary<string, string> errors, object baseObject)
+        {
+            foreach (var error in errors)
+            {
+                var properties = error.Key.Split('.');
+
+                object currentObject = baseObject;
+                string lastProperty = properties.Last();
+
+                // Se for caminho aninhado (ex: "fieldRequest.Tipo")
+                if (properties.Length > 1)
+                {
+                    foreach (var prop in properties.SkipLast(1))
+                    {
+                        if (currentObject == null)
+                            break;
+
+                        var propInfo = currentObject.GetType().GetProperty(prop);
+                        if (propInfo != null)
+                            currentObject = propInfo.GetValue(currentObject);
+                    }
+                }
+
+                if (currentObject != null)
+                {
+                    var fieldIdentifier = new FieldIdentifier(currentObject, lastProperty);
+                    _validationMessageStore.Add(fieldIdentifier, error.Value);
+                }
+            }
+
+            editContext.NotifyValidationStateChanged();
+        }
+
+        public void AddError(string fieldName, string errorMessage)
+        {
+            _validationMessageStore.Add(editContext.Field(fieldName), errorMessage);
             editContext.NotifyValidationStateChanged();
         }
 

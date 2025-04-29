@@ -10,5 +10,7 @@ namespace modulum.Client.Infrastructure.Routes
     public static class DynamicEndpoints
     {
         public static string CadastroDynamic = EndpointsDynamic.Raiz;
+        public static string GetMenu = EndpointsDynamic.Raiz + EndpointsDynamic.Menu;
+        public static string GetNewObject = EndpointsDynamic.Raiz + EndpointsDynamic.GetNewObjeto;
     }
 }

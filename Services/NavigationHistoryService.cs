@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace modulum.Client.Infrastructure.Managers
+namespace modulum.Client.Infrastructure.Services
 {
     public class NavigationHistoryService
     {
