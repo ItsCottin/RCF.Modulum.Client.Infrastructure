@@ -1,5 +1,8 @@
 ﻿using modulum.Application.Requests.Dynamic;
 using modulum.Application.Requests.Dynamic.Create;
+using modulum.Application.Requests.Dynamic.Relationship;
+using modulum.Application.Requests.Dynamic.Update;
+using modulum.Application.Responses.Dynamic;
 using modulum.Client.Infrastructure.Extensions;
 using modulum.Shared.Routes;
 using modulum.Shared.Wrapper;
@@ -24,10 +27,18 @@ namespace modulum.Client.Infrastructure.Managers.Dynamic
         { 
             _httpClient = httpClient;
         }
-        public async Task<IResult> CadastrarDynamic(CreateDynamicTableRequest request)
+        public async Task<IResult> OperacaoMapTable(CreateDynamicTableRequest request, string operacao)
         {
-            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.CadastroDynamic, request);
-            return await response.ToResult();
+            if (operacao.Equals("create"))
+            {
+                var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.CadastroDynamic, request);
+                return await response.ToResult();
+            }
+            else
+            {
+                var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.AlterMapTable, request);
+                return await response.ToResult();
+            }
         }
 
         public async Task<IResult<DynamicTableRequest>> GetAllRegistroTabela(int id)
@@ -50,7 +61,49 @@ namespace modulum.Client.Infrastructure.Managers.Dynamic
 
         public async Task<IResult> OperacaoRegistro(DynamicTableRequest request, string operacao) 
         {
-            var response = await _httpClient.PutAsJsonAsync($"{Routes.DynamicEndpoints.CadastroDynamic}/{operacao}", request);
+            var response = await _httpClient.PutAsJsonAsync($"{Routes.DynamicEndpoints.CadastroDynamic}{operacao}", request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult> DeletePorIdAsync(DynamicForIdRequest request)
+        {
+            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.DeleteDynamicById, request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult<DynamicTableRequest>> GetRegistroPorIdTabelaEIdRegistro(DynamicForIdRequest request)
+        {
+            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.SelectDynamicById, request);
+            return await response.ToResult<DynamicTableRequest>();
+        }
+
+        public async Task<IResult<CreateDynamicTableRequest>> GetMapTable(int idTable)
+        {
+            var response = await _httpClient.GetAsync(Routes.DynamicEndpoints.GetMapTable + $"/{idTable}");
+            return await response.ToResult<CreateDynamicTableRequest>();
+        }
+
+        public async Task<IResult> AlterarRelacionamento(List<CreateDynamicRelationshipRequest> request)
+        {
+            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.AlterRelacionamento, request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult<List<CreateDynamicRelationshipRequest>>> ConsultarRelacionamento(int idTable)
+        {
+            var response = await _httpClient.GetAsync(Routes.DynamicEndpoints.ConsultarRelacionamento + $"/{idTable}");
+            return await response.ToResult<List<CreateDynamicRelationshipRequest>>();
+        }
+
+        public async Task<IResult> RenameNomeTabelaTela(RenameNomeTabelaTelaRequest request)
+        {
+            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.RenameNomeTabelaTela, request);
+            return await response.ToResult();
+        }
+
+        public async Task<IResult> DeleteMapTableAsync(int idTable)
+        {
+            var response = await _httpClient.DeleteAsync(Routes.DynamicEndpoints.DeleteMapTable + $"/{idTable}");
             return await response.ToResult();
         }
     }
