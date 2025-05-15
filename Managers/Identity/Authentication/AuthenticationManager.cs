@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using modulum.Shared.Routes;
+using System.Net;
 
 namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
 {
@@ -73,7 +74,7 @@ namespace modulum.Client.Infrastructure.Managers.Identity.Authentication
             const string Empty = "{}";
             var emptyContent = new StringContent(Empty, Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(TokenEndpoints.Logout, emptyContent);
-            if (result.IsSuccessStatusCode)
+            if (result.StatusCode == HttpStatusCode.Unauthorized || result.IsSuccessStatusCode)
             {
                 await _localStorage.RemoveItemAsync(StorageConstants.Local.AuthToken);
                 await _localStorage.RemoveItemAsync(StorageConstants.Local.RefreshToken);
