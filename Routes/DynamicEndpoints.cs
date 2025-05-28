@@ -18,7 +18,8 @@ namespace modulum.Client.Infrastructure.Routes
         public static string AlterMapTable = EndpointsDynamic.Raiz + EndpointsDynamic.AlterMapTable;
         public static string DeleteMapTable = EndpointsDynamic.Raiz + EndpointsDynamic.DeleteMapTable;
         public static string RenameNomeTabelaTela = EndpointsDynamic.Raiz + EndpointsDynamic.RenameNomeTabelaTela;
-        public static string AlterRelacionamento = EndpointsDynamic.Raiz + EndpointsDynamic.AlterRelacionamento;
-        public static string ConsultarRelacionamento = EndpointsDynamic.Raiz + EndpointsDynamic.ConsultarRelacionamento;
+        public static string AlterRelacionamento = EndpointsRelacionamento.Raiz + EndpointsRelacionamento.AlterarRelacionamento;
+        public static string ConsultarRelacionamento = EndpointsRelacionamento.Raiz + EndpointsRelacionamento.ConsultarRelacionamento;
+        public static string DeletarRelacionamento = EndpointsRelacionamento.Raiz + EndpointsRelacionamento.DeletarRelacionamento;
     }
 }

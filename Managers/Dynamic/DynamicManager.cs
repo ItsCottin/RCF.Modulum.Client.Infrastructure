@@ -89,6 +89,12 @@ namespace modulum.Client.Infrastructure.Managers.Dynamic
             return await response.ToResult();
         }
 
+        public async Task<IResult> DeletarRelacionamento(DynamicForIdRequest request) 
+        {
+            var response = await _httpClient.PostAsJsonAsync(Routes.DynamicEndpoints.DeletarRelacionamento, request);
+            return await response.ToResult();
+        }
+
         public async Task<IResult<List<CreateDynamicRelationshipRequest>>> ConsultarRelacionamento(int idTable)
         {
             var response = await _httpClient.GetAsync(Routes.DynamicEndpoints.ConsultarRelacionamento + $"/{idTable}");

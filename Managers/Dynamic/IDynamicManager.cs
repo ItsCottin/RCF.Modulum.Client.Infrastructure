@@ -23,6 +23,7 @@ namespace modulum.Client.Infrastructure.Managers.Dynamic
         Task<IResult<DynamicTableRequest>> GetRegistroPorIdTabelaEIdRegistro(DynamicForIdRequest request);
         Task<IResult<CreateDynamicTableRequest>> GetMapTable(int idTable);
         Task<IResult> AlterarRelacionamento(List<CreateDynamicRelationshipRequest> request);
+        Task<IResult> DeletarRelacionamento(DynamicForIdRequest request);
         Task<IResult<List<CreateDynamicRelationshipRequest>>> ConsultarRelacionamento(int idTable);
         Task<IResult> RenameNomeTabelaTela(RenameNomeTabelaTelaRequest request);
         Task<IResult> DeleteMapTableAsync(int idTable);
