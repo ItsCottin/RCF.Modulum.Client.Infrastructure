@@ -96,6 +96,7 @@ jobs:
         run: |
           curl -s -X POST \
             -H "Authorization: Bearer ${{ env.token }}" \
+            -H "versao: ${{ env.new_version }}" \
             -H "Content-Type: application/json" \
             --data-binary @nuget-packages.json \
             "${{ secrets.URL_API_REGISTER_NUGET }}"
